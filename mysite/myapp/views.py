@@ -1,8 +1,11 @@
 from django.shortcuts import render,redirect
 from .forms import ExpenseForm
 from .models import Expense
+from django.db.models import Sum
 
 # Create your views here.
+
+#Function to add the expenses
 def index(request):
     if request.method =="POST":
         expense = ExpenseForm(request.POST)
@@ -10,9 +13,13 @@ def index(request):
             expense.save()
             
     expenses = Expense.objects.all()
+    total_expenses = expenses.aggregate(Sum('amount'))
+    print(total_expenses)
+    
     expense_form = ExpenseForm()
-    return render(request,'myapp/index.html',{'expense_form':expense_form,'expenses':expenses})
+    return render(request,'myapp/index.html',{'expense_form':expense_form,'expenses':expenses, 'total_expenses':total_expenses})
 
+#Function to edit the expenses
 def edit(request,id):
     expense = Expense.objects.get(id=id)
     expense_form = ExpenseForm(instance=expense)
@@ -25,4 +32,13 @@ def edit(request,id):
             return redirect('index')
     
     return render(request,'myapp/edit.html',{'expense_form':expense_form})
+
+
+#Function to delete the expenses
+def delete(request,id):
+    if request.method =="POST" and 'delete' in request.POST:
+        expense = Expense.objects.get(id=id)
+        expense.delete()
+        
+    return redirect('index')
    
