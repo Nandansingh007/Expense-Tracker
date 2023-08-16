@@ -35,9 +35,9 @@ The application offers charts to visualize your expenses, helping you gain insig
 To run the Expense Tracker locally, follow these steps:
 
 1. Clone the repository:
-   git clone https://github.com/yourusername/expense-tracker.git
+   git clone https://github.com/Nandansingh007/Expense-Tracker.git
    
-   cd expense-tracker
+   cd mysite
 
 2. Set up a virtual environment and activate it:
    
